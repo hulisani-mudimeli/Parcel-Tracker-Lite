@@ -1,0 +1,115 @@
+{
+  "details": [
+    {
+      "id": "trk_8f3a9c",
+      "tracking_number": "1Z999AA10123456784",
+      "carrier": "Acme Express",
+      "title": "Laptop order",
+      "status": "in_transit",
+      "eta": "2026-03-05T18:00:00Z",
+      "last_update": "2026-02-25T14:12:00Z",
+      "origin": {
+        "city": "Shenzhen",
+        "country": "CN"
+      },
+      "destination": {
+        "city": "Austin",
+        "country": "US"
+      },
+      "checkpoints": [
+        {
+          "time": "2026-02-20T08:15:00Z",
+          "location": "Shenzhen, CN",
+          "status": "picked_up",
+          "message": "Package received"
+        },
+        {
+          "time": "2026-02-22T21:03:00Z",
+          "location": "Anchorage, US",
+          "status": "in_transit",
+          "message": "Arrived at facility"
+        },
+        {
+          "time": "2026-02-25T14:12:00Z",
+          "location": "Austin, US",
+          "status": "in_transit",
+          "message": "Departed facility"
+        }
+      ]
+    },
+    {
+      "id": "trk_7aa1d2",
+      "tracking_number": "9400111899223197428499",
+      "carrier": "Universal Post",
+      "title": "Shoes",
+      "status": "delivered",
+      "eta": null,
+      "last_update": "2026-02-19T08:01:00Z",
+      "origin": {
+        "city": "Portland",
+        "country": "US"
+      },
+      "destination": {
+        "city": "Chicago",
+        "country": "US"
+      },
+      "checkpoints": [
+        {
+          "time": "2026-02-17T12:30:00Z",
+          "location": "Portland, US",
+          "status": "picked_up",
+          "message": "Shipment created"
+        },
+        {
+          "time": "2026-02-18T07:40:00Z",
+          "location": "Denver, US",
+          "status": "in_transit",
+          "message": "Arrived at facility"
+        },
+        {
+          "time": "2026-02-19T08:01:00Z",
+          "location": "Chicago, US",
+          "status": "delivered",
+          "message": "Delivered to front door"
+        }
+      ]
+    },
+    {
+      "id": "trk_aa44d0",
+      "tracking_number": "LV987654321US",
+      "carrier": "Acme Express",
+      "title": "Headphones",
+      "status": "exception",
+      "eta": null,
+      "last_update": "2026-02-24T12:30:00Z",
+      "origin": {
+        "city": "Berlin",
+        "country": "DE"
+      },
+      "destination": {
+        "city": "Madrid",
+        "country": "ES"
+      },
+      "checkpoints": [
+        {
+          "time": "2026-02-23T10:00:00Z",
+          "location": "Berlin, DE",
+          "status": "picked_up",
+          "message": "Package picked up"
+        },
+        {
+          "time": "2026-02-24T12:30:00Z",
+          "location": "Madrid, ES",
+          "status": "in_transit",
+          "message": "Processing delay"
+        },
+        {
+          "time": "2026-02-24T11:00:00Z",
+          "location": "Madrid, ES",
+          "status": "in_transit",
+          "message": "Arrived at facility"
+        }
+      ]
+    }
+  ]
+}
