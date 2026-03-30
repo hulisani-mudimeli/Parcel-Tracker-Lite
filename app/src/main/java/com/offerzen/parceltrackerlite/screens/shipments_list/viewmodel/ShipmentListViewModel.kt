@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.offerzen.common.models.database.ShipmentItemDb
-import com.offerzen.common.result.Result
+import com.offerzen.common.result.MyResult
 import com.offerzen.domain.usecases.FetchTrackedShipmentListUseCase
 import com.offerzen.domain.usecases.MarkParcelAsFavoriteUseCase
 import com.offerzen.domain.usecases.RefreshTrackedShipmentsUseCase
@@ -37,11 +37,7 @@ class ShipmentListViewModel @Inject constructor(
             val result = fetchTrackedShipmentsUseCase()
             Log.d(TAG, "fetchShipments: $result")
 
-            if (result.isEmpty()) {
-                _uiState.value = ShipmentListUiState.Error("No shipments found.")
-            } else {
-                _uiState.value = ShipmentListUiState.Success(result)
-            }
+            _uiState.value = ShipmentListUiState.Success(result)
         }
     }
 
@@ -60,7 +56,7 @@ class ShipmentListViewModel @Inject constructor(
                 val result = markParcelAsFavoriteUseCase(it, !shipment.favorite)
                 Log.d(TAG, "onFavoriteClick: $result")
                 when (result) {
-                    is Result.Success -> {
+                    is MyResult.Success -> {
                         val current = _uiState.value as? ShipmentListUiState.Success  ?: return@launch
                         _uiState.value = current.copy(
                             shipments = current.shipments.map { item ->
@@ -71,15 +67,11 @@ class ShipmentListViewModel @Inject constructor(
                         )
                     }
 
-                    is Result.Error -> {}
+                    is MyResult.Error -> {}
                 }
             }
         }
 
-    }
-
-    fun onAddClick() {
-        // Handle add button click
     }
 
     fun onRefresh() {
@@ -90,8 +82,8 @@ class ShipmentListViewModel @Inject constructor(
             delay(500.milliseconds) // This fixes flaky animation if refresh duration happens too fast.
             _uiState.value = current.copy(isRefreshing = false)
             when (result) {
-                is Result.Success -> fetchShipments()
-                is Result.Error -> {}
+                is MyResult.Success -> fetchShipments()
+                is MyResult.Error -> {}
             }
         }
     }

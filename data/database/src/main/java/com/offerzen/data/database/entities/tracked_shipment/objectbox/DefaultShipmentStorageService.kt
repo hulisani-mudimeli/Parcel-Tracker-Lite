@@ -1,7 +1,7 @@
 package com.offerzen.data.database.entities.tracked_shipment.objectbox
 
 import com.offerzen.common.models.database.ShipmentItemDb
-import com.offerzen.common.result.Result
+import com.offerzen.common.result.MyResult
 import com.offerzen.data.database.entities.tracked_shipment.ShipmentStorageService
 import io.objectbox.Box
 import io.objectbox.query.QueryBuilder
@@ -9,12 +9,12 @@ import io.objectbox.query.QueryBuilder
 class DefaultShipmentStorageService(
     private val shipmentBox: Box<ShipmentItemOB>
 ): ShipmentStorageService {
-    override suspend fun insertOrUpdate(shipment: ShipmentItemDb): Result<Unit> {
+    override suspend fun insertOrUpdate(shipment: ShipmentItemDb): MyResult<Unit> {
         return try {
             insertOrUpdateInternal(shipment)
-            Result.Success(Unit)
+            MyResult.Success(Unit)
         } catch (e: Exception) {
-            Result.Error(e)
+            MyResult.Error(e)
         }
     }
 
@@ -42,16 +42,16 @@ class DefaultShipmentStorageService(
         return shipmentItemOB?.toDb()
     }
 
-    override suspend fun bulkInsertOrUpdateShipments(shipments: List<ShipmentItemDb>): Result<Unit> {
+    override suspend fun bulkInsertOrUpdateShipments(shipments: List<ShipmentItemDb>): MyResult<Unit> {
         return try {
             shipmentBox.store.runInTx {
                 for (shipment in shipments) {
                     insertOrUpdateInternal(shipment)
                 }
             }
-            Result.Success(Unit)
+            MyResult.Success(Unit)
         } catch (e: Exception) {
-            Result.Error(e)
+            MyResult.Error(e)
         }
     }
 
@@ -66,18 +66,18 @@ class DefaultShipmentStorageService(
     override suspend fun markAsFavorite(
         trackingNumber: String,
         favorite: Boolean
-    ): Result<Unit> {
+    ): MyResult<Unit> {
         val shipment = findShipmentByTrackingNumber(trackingNumber)
         return if (shipment != null) {
             shipment.favorite = favorite
             try {
                 insertOrUpdateInternal(shipment, false)
-                Result.Success(Unit)
+                MyResult.Success(Unit)
             } catch (e: Exception) {
-                Result.Error(e)
+                MyResult.Error(e)
             }
         } else {
-            Result.Error(Exception("Shipment provided is currently not tracked"))
+            MyResult.Error(Exception("Shipment provided is currently not tracked"))
         }
     }
 

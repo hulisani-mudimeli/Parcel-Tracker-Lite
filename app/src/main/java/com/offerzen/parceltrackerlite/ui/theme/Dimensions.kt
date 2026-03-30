@@ -10,4 +10,6 @@ object Dimensions {
     val spacingDefaultHalf = 8.dp
     val textSpacingDefault = 4.dp
     val listBottomPaddingDefault = 88.dp
+    val strokeWidthDefault = 2.dp
+    val zero = 0.dp
 }

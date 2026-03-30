@@ -1,10 +1,15 @@
 package com.offerzen.parceltrackerlite.screens.shipments_list.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.offerzen.common.models.database.ShipmentItemDb
+import com.offerzen.parceltrackerlite.navigation.Route
 import com.offerzen.parceltrackerlite.screens.shipments_list.model.ShipmentListUiState
 import com.offerzen.parceltrackerlite.screens.shipments_list.view.segments.ShipmentErrorContent
 import com.offerzen.parceltrackerlite.screens.shipments_list.view.segments.ShipmentListSuccessState
@@ -14,16 +19,23 @@ import com.offerzen.parceltrackerlite.ui.PhonePreviews
 
 @Composable
 fun ShipmentListView(
+    navController: NavController,
     viewModel: ShipmentListViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState().value
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    // observe refresh result from add tracking screen
+    LaunchedEffect(navBackStackEntry) {
+        viewModel.onRetryFetch()
+    }
 
     ShipmentListContent(
         uiState,
         onRetry = { viewModel.onRetryFetch() },
         onShipmentClick = { viewModel.onShipmentClick(it) },
         onFavoriteClick = { viewModel.onFavoriteClick(it) },
-        onAddClick = { viewModel.onAddClick() },
+        onAddClick = { navController.navigate(Route.AddTracking.route) },
         onRefresh = { viewModel.onRefresh() }
     )
 }

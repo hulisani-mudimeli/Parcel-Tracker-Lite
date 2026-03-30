@@ -1,5 +1,6 @@
 package com.offerzen.parceltrackerlite.screens.shipments_list.view.segments
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Favorite
@@ -21,13 +23,14 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -44,39 +47,45 @@ fun ShipmentListSuccessState(
     isRefreshing: Boolean = false
 ) {
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddClick) {
-                Icon(
-                    imageVector = Icons.Rounded.Add,
-                    contentDescription = "Add tracking number"
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Dimensions.zero),
+    ) {
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+            modifier = modifier.fillMaxSize()
         ) {
-            PullToRefreshBox(
-                isRefreshing = isRefreshing,
-                onRefresh = onRefresh,
-                modifier = modifier.fillMaxSize()
-            ) {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    LazyColumn(
+            Column(modifier = Modifier.fillMaxSize()) {
+                if (shipments.isEmpty()) {
+                    Box(
                         modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "No tracked shipments yet.\nTap + to start tracking shipments.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
                         contentPadding = PaddingValues(
                             start = Dimensions.spacingDefault,
                             end = Dimensions.spacingDefault,
-                            top = Dimensions.spacingDefaultHalf,
+                            top = Dimensions.spacingDefault,
                             bottom = Dimensions.listBottomPaddingDefault
                         ),
-                        verticalArrangement = Arrangement.spacedBy(Dimensions.spacingDefaultHalf)
+                        verticalArrangement = Arrangement.spacedBy(Dimensions.spacingDefaultHalf),
                     ) {
-                        items(shipments.size) { position ->
-                            val shipment = shipments[position]
+                        items(
+                            items = shipments,
+                            key = { it.id },
+                        ) { shipment ->
                             ShipmentItem(
                                 shipment = shipment,
                                 onShipmentClick = { onShipmentClick(shipment) },
@@ -86,6 +95,18 @@ fun ShipmentListSuccessState(
                     }
                 }
             }
+        }
+
+        FloatingActionButton(
+            onClick = onAddClick,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(Dimensions.spacingDefault)
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Add,
+                contentDescription = "Add tracking number"
+            )
         }
     }
 }
