@@ -1,5 +1,6 @@
 package com.offerzen.common.models.mappers
 
+import com.offerzen.common.enums.ShipmentStatus
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.common.models.network.ShipmentItem
 
@@ -9,7 +10,7 @@ fun ShipmentItemDb.toNetwork(): ShipmentItem {
         trackingNumber = trackingNumber,
         carrier = carrier,
         title = title,
-        status = status,
+        status = status.code,
         lastUpdate = lastUpdate
     )
 }
@@ -21,7 +22,7 @@ fun ShipmentItem.toDb(): ShipmentItemDb {
         trackingNumber = trackingNumber,
         carrier = carrier,
         title = title,
-        status = status,
+        status = ShipmentStatus.getByCode(status),
         lastUpdate = lastUpdate
     )
 }

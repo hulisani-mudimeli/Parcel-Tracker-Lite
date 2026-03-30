@@ -154,7 +154,7 @@ fun ShipmentItem(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(Dimensions.spacingDefaultHalf)
                 ) {
-                    ShipmentStatusChip(status = shipment.status ?: "")
+                    ShipmentStatusChip(status = shipment.status)
                     Text(
                         text = shipment.lastUpdate ?: "",
                         style = MaterialTheme.typography.labelSmall,

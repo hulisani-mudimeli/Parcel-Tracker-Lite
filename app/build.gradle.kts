@@ -45,7 +45,7 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":common"))
-    runtimeOnly(project(":data:repository")) //Really necessary??
+    runtimeOnly(project(":data:repository"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

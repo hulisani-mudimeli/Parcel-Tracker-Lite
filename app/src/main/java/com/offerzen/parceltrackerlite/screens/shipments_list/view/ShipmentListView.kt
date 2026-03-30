@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.offerzen.common.enums.ShipmentStatus
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.parceltrackerlite.navigation.Route
 import com.offerzen.parceltrackerlite.screens.shipments_list.model.ShipmentListUiState
@@ -88,8 +89,8 @@ fun ShipmentListContentPreview() {
 fun ShipmentListContentPreview2() {
     ShipmentListContent(
         ShipmentListUiState.Success(listOf(
-            ShipmentItemDb(1, "trk02123d", "989213213", "Acme Express", "Laptop order#2", "in_transit", "2026-02-25T14:12:00Z", false),
-            ShipmentItemDb(2, "trk342342", "1safsdkj3", "Universal Post", "Shoes#2", "delivered", "2026-02-19T08:01:00Z", true)
+            ShipmentItemDb(1, "trk02123d", "989213213", "Acme Express", "Laptop order#2", ShipmentStatus.InTransit, "2026-02-25T14:12:00Z", false),
+            ShipmentItemDb(2, "trk342342", "1safsdkj3", "Universal Post", "Shoes#2", ShipmentStatus.Delivered, "2026-02-19T08:01:00Z", true)
         )),
         onRetry = {},
         onShipmentClick = {},

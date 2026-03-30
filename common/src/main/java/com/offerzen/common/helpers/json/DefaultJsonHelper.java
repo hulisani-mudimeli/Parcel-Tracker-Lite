@@ -1,4 +1,4 @@
-package com.offerzen.common.helpers;
+package com.offerzen.common.helpers.json;
 
 import android.content.Context;
 
@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class JsonHelper {
-    public static String read(Context context, @RawRes int rawResId) throws IOException {
+public class DefaultJsonHelper implements JsonHelper {
+    public String read(Context context, @RawRes int rawResId) throws IOException {
         InputStream inputStream = context.getResources().openRawResource(rawResId);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();

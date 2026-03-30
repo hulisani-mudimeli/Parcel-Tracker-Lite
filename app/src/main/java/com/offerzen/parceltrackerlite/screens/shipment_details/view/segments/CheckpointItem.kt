@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.offerzen.common.enums.ShipmentStatus
 import com.offerzen.common.models.network.ShipmentCheckpoint
 import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -81,7 +82,7 @@ fun CheckpointItem(
             }
             checkpoint.status?.let {
                 Spacer(modifier = Modifier.height(2.dp))
-                ShipmentStatusChip(status = it)
+                ShipmentStatusChip(status = ShipmentStatus.getByCode(it))
             }
         }
     }

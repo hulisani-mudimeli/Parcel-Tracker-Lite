@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.offerzen.common.enums.ShipmentStatus
 import com.offerzen.common.models.network.ShipmentDetails
 import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -63,7 +64,7 @@ fun ShipmentHeaderCard(
                 horizontalArrangement = Arrangement.spacedBy(Dimensions.spacingDefaultHalf),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                shipment.status?.let { ShipmentStatusChip(status = it) }
+                shipment.status?.let { ShipmentStatusChip(status = ShipmentStatus.getByCode(it)) }
             }
             shipment.eta?.let {
                 Spacer(modifier = Modifier.height(Dimensions.textSpacingDefault))

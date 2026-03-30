@@ -6,48 +6,36 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.offerzen.common.enums.ShipmentStatus
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 
 @Composable
 fun ShipmentStatusChip(
-    status: String,
+    status: ShipmentStatus,
     modifier: Modifier = Modifier
 ) {
-    val (backgroundColor, textColor, label) = when (status) {
-        "in_transit" -> Triple(
+    val (backgroundColor, textColor) = when (status) {
+        ShipmentStatus.InTransit -> Pair(
             MaterialTheme.colorScheme.primaryContainer,
             MaterialTheme.colorScheme.onPrimaryContainer,
-            "In Transit"
         )
-        "delivered" -> Triple(
+        ShipmentStatus.Delivered -> Pair(
             MaterialTheme.colorScheme.tertiaryContainer,
             MaterialTheme.colorScheme.onTertiaryContainer,
-            "Delivered"
         )
-        "out_for_delivery" -> Triple(
+        ShipmentStatus.OutForDelivery,
+        ShipmentStatus.PickedUp -> Pair(
             MaterialTheme.colorScheme.secondaryContainer,
             MaterialTheme.colorScheme.onSecondaryContainer,
-            "Out for Delivery"
         )
-        "exception" -> Triple(
+        ShipmentStatus.Exception -> Pair(
             MaterialTheme.colorScheme.errorContainer,
             MaterialTheme.colorScheme.onErrorContainer,
-            "Exception"
         )
-        "created" -> Triple(
+        ShipmentStatus.Created,
+        ShipmentStatus.Unknown -> Pair(
             MaterialTheme.colorScheme.surfaceVariant,
             MaterialTheme.colorScheme.onSurfaceVariant,
-            "Created"
-        )
-        "picked_up" -> Triple(
-            MaterialTheme.colorScheme.secondaryContainer,
-            MaterialTheme.colorScheme.onSecondaryContainer,
-            "Picked Up"
-        )
-        else -> Triple(
-            MaterialTheme.colorScheme.surfaceVariant,
-            MaterialTheme.colorScheme.onSurfaceVariant,
-            "Unknown"
         )
     }
 
@@ -57,7 +45,7 @@ fun ShipmentStatusChip(
         color = backgroundColor
     ) {
         Text(
-            text = label,
+            text = status.label,
             modifier = Modifier.padding(horizontal = Dimensions.spacingDefaultHalf, vertical = Dimensions.textSpacingDefault),
             style = MaterialTheme.typography.labelSmall,
             color = textColor
