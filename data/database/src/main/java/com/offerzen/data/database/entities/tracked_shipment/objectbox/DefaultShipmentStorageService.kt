@@ -18,11 +18,13 @@ class DefaultShipmentStorageService(
         }
     }
 
-    private fun insertOrUpdateInternal(shipment: ShipmentItemDb) {
+    private fun insertOrUpdateInternal(shipment: ShipmentItemDb, keepOldFavoritesValue: Boolean = true) {
         val existingRecord: ShipmentItemDb? = findShipmentByTrackingNumber(shipment.trackingNumber)
         if (existingRecord != null) {
             shipment.id = existingRecord.id
-            shipment.favorite = existingRecord.favorite
+            if (keepOldFavoritesValue) {
+                shipment.favorite = existingRecord.favorite
+            }
         }
 
         shipmentBox.put(shipment.toOB())
@@ -69,7 +71,7 @@ class DefaultShipmentStorageService(
         return if (shipment != null) {
             shipment.favorite = favorite
             try {
-                insertOrUpdateInternal(shipment)
+                insertOrUpdateInternal(shipment, false)
                 Result.Success(Unit)
             } catch (e: Exception) {
                 Result.Error(e)
