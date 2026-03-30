@@ -30,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.offerzen.parceltrackerlite.navigation.Route
 import com.offerzen.parceltrackerlite.screens.add_tracking.view.AddTrackingNumberView
+import com.offerzen.parceltrackerlite.screens.shipment_details.view.ShipmentDetailsView
 import com.offerzen.parceltrackerlite.screens.shipments_list.view.ShipmentListView
 import com.offerzen.parceltrackerlite.ui.theme.ParcelTrackerLiteTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,8 +89,8 @@ class MainActivity : ComponentActivity() {
                             AddTrackingNumberView(navController)
                         }
                         composable(Route.ShipmentDetail.route) { backStackEntry ->
-//                            val id = backStackEntry.arguments?.getString("id") ?: return@composable
-//                            ShipmentDetailScreen(navController, id)
+                            val trackingNumber = backStackEntry.arguments?.getString("trackingNumber") ?: return@composable
+                            ShipmentDetailsView(trackingNumber)
                         }
                     }
                 }

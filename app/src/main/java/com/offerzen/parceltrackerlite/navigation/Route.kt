@@ -10,9 +10,9 @@ sealed class Route(val route: String, val title: String) {
         title = "Add Tracking Number"
     )
     data object ShipmentDetail : Route(
-        route = "shipment_detail/{id}",
+        route = "shipment_detail/{trackingNumber}",
         title = "Shipment Details"
     ) {
-        fun createRoute(id: String) = "shipment_detail/$id"
+        fun createRoute(trackingNumber: String) = "shipment_detail/$trackingNumber"
     }
 }

@@ -46,10 +46,6 @@ class ShipmentListViewModel @Inject constructor(
         fetchShipments()
     }
 
-    fun onShipmentClick(shipment: ShipmentItemDb) {
-        // Handle click on shipment item
-    }
-
     fun onFavoriteClick(shipment: ShipmentItemDb) {
         shipment.trackingNumber?.let {
             viewModelScope.launch {

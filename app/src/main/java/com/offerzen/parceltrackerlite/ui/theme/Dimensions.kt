@@ -8,6 +8,7 @@ object Dimensions {
     val spacingDefault = 16.dp
     val spacingDefaultDouble = 32.dp
     val spacingDefaultHalf = 8.dp
+    val spacingSecondary = 24.dp
     val textSpacingDefault = 4.dp
     val listBottomPaddingDefault = 88.dp
     val strokeWidthDefault = 2.dp

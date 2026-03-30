@@ -33,7 +33,11 @@ fun ShipmentListView(
     ShipmentListContent(
         uiState,
         onRetry = { viewModel.onRetryFetch() },
-        onShipmentClick = { viewModel.onShipmentClick(it) },
+        onShipmentClick = {
+            it.trackingNumber?.let {
+                navController.navigate(Route.ShipmentDetail.createRoute(it))
+            }
+        },
         onFavoriteClick = { viewModel.onFavoriteClick(it) },
         onAddClick = { navController.navigate(Route.AddTracking.route) },
         onRefresh = { viewModel.onRefresh() }
