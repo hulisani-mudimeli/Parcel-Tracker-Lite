@@ -12,11 +12,16 @@ class AddTrackingNumberUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(trackingNumber: String): MyResult<Unit> {
         return withContext(Dispatchers.IO) {
-            val shipmentItem = shipmentRepository.fetchRemoteShipmentItem(trackingNumber)
-            if (shipmentItem == null) {
-                MyResult.Error(Exception("Tracking number not found"))
+            val localShipmentItem = shipmentRepository.findTrackedShipmentByTrackingNumber(trackingNumber)
+            if (localShipmentItem != null) {
+                MyResult.Error(Exception("This parcel is already being tracked."))
             } else {
-                shipmentRepository.insertOrUpdateTrackedShipmentItem(shipmentItem.toDb())
+                val shipmentItem = shipmentRepository.fetchRemoteShipmentItem(trackingNumber)
+                if (shipmentItem == null) {
+                    MyResult.Error(Exception("Tracking number not found"))
+                } else {
+                    shipmentRepository.insertOrUpdateTrackedShipmentItem(shipmentItem.toDb())
+                }
             }
         }
     }

@@ -18,6 +18,9 @@ interface ShipmentRepository {
 
     suspend fun markParcelAsFavorite(trackingNumber: String, favorite: Boolean): MyResult<Unit>
 
+    suspend fun findTrackedShipmentByTrackingNumber(trackingNumber: String): ShipmentItemDb?
+
+
     // Network
     suspend fun fetchRemoteShipmentItem(trackingNumber: String): ShipmentItem?
 

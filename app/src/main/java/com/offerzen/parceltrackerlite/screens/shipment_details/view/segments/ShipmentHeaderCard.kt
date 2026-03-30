@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.offerzen.common.models.network.ShipmentDetails
-import com.offerzen.parceltrackerlite.screens.shipments_list.view.segments.ShipmentStatusChip
+import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 
 @Composable

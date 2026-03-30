@@ -14,4 +14,6 @@ interface ShipmentStorageService {
     ): List<ShipmentItemDb>
 
     suspend fun markAsFavorite(trackingNumber: String, favorite: Boolean): MyResult<Unit>
+
+    suspend fun findShipmentByTrackingNumber(trackingNumber: String): ShipmentItemDb?
 }

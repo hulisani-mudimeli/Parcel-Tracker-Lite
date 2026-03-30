@@ -99,6 +99,7 @@ fun ShipmentDetailContent(
 
                 // checkpoints timeline
                 if (!shipment.checkpoints.isNullOrEmpty()) {
+                    val checkpoints = shipment.checkpoints!!
                     item {
                         Text(
                             text = "Timeline",
@@ -106,14 +107,13 @@ fun ShipmentDetailContent(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
-                    val sorted = shipment.checkpoints!!.sortedByDescending { it.time }
                     itemsIndexed(
-                        items = sorted,
+                        items = checkpoints,
                         key = { index, _ -> index }
                     ) { index, checkpoint ->
                         CheckpointItem(
                             checkpoint = checkpoint,
-                            isLast = index == sorted.lastIndex
+                            isLast = index == checkpoints.lastIndex
                         )
                     }
                 }

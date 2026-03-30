@@ -69,12 +69,6 @@ fun AddTrackingNumberContent(uiState: AddTrackingUiState, submitTrackingNumber: 
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Tracking Number") },
             placeholder = { Text("e.g. 1Z999AA10123456784") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Rounded.Search,
-                    contentDescription = null
-                )
-            },
             trailingIcon = {
                 if (trackingNumber.isNotEmpty()) {
                     IconButton(onClick = { trackingNumber = "" }) {
@@ -100,7 +94,7 @@ fun AddTrackingNumberContent(uiState: AddTrackingUiState, submitTrackingNumber: 
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-//                onDone = { submitTrackingNumber(trackingNumber) }
+                onDone = { submitTrackingNumber(trackingNumber) }
             ),
             shape = MaterialTheme.shapes.medium
         )

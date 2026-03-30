@@ -34,6 +34,10 @@ class DefaultShipmentRepository(
         return shipmentStorageService.markAsFavorite(trackingNumber, favorite)
     }
 
+    override suspend fun findTrackedShipmentByTrackingNumber(trackingNumber: String): ShipmentItemDb? {
+        return shipmentStorageService.findShipmentByTrackingNumber(trackingNumber)
+    }
+
     override suspend fun fetchRemoteShipmentItem(trackingNumber: String): ShipmentItem? {
         return shipmentApiService.fetchShipmentItem(trackingNumber)
     }

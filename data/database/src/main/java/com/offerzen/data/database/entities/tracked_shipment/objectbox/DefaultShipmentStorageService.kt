@@ -19,7 +19,7 @@ class DefaultShipmentStorageService(
     }
 
     private fun insertOrUpdateInternal(shipment: ShipmentItemDb, keepOldFavoritesValue: Boolean = true) {
-        val existingRecord: ShipmentItemDb? = findShipmentByTrackingNumber(shipment.trackingNumber)
+        val existingRecord: ShipmentItemDb? = findShipmentByTrackingNumberInternal(shipment.trackingNumber)
         if (existingRecord != null) {
             shipment.id = existingRecord.id
             if (keepOldFavoritesValue) {
@@ -30,7 +30,7 @@ class DefaultShipmentStorageService(
         shipmentBox.put(shipment.toOB())
     }
 
-    private fun findShipmentByTrackingNumber(trackingNumber: String?): ShipmentItemDb? {
+    private fun findShipmentByTrackingNumberInternal(trackingNumber: String?): ShipmentItemDb? {
         if (trackingNumber == null) return null
 
         val shipmentItemOB = shipmentBox.query().equal(
@@ -67,7 +67,7 @@ class DefaultShipmentStorageService(
         trackingNumber: String,
         favorite: Boolean
     ): MyResult<Unit> {
-        val shipment = findShipmentByTrackingNumber(trackingNumber)
+        val shipment = findShipmentByTrackingNumberInternal(trackingNumber)
         return if (shipment != null) {
             shipment.favorite = favorite
             try {
@@ -79,6 +79,10 @@ class DefaultShipmentStorageService(
         } else {
             MyResult.Error(Exception("Shipment provided is currently not tracked"))
         }
+    }
+
+    override suspend fun findShipmentByTrackingNumber(trackingNumber: String): ShipmentItemDb? {
+        return findShipmentByTrackingNumberInternal(trackingNumber)
     }
 
 }

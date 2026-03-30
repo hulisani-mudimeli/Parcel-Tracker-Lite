@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.offerzen.common.models.network.ShipmentCheckpoint
-import com.offerzen.parceltrackerlite.screens.shipments_list.view.segments.ShipmentStatusChip
+import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 
 @Composable

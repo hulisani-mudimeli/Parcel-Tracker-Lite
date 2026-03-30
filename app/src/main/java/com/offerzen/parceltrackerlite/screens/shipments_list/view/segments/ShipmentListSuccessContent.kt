@@ -1,6 +1,5 @@
 package com.offerzen.parceltrackerlite.screens.shipments_list.view.segments
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,16 +22,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.offerzen.common.models.database.ShipmentItemDb
+import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,62 +174,5 @@ fun ShipmentItem(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun ShipmentStatusChip(
-    status: String,
-    modifier: Modifier = Modifier
-) {
-    val (backgroundColor, textColor, label) = when (status) {
-        "in_transit" -> Triple(
-            MaterialTheme.colorScheme.primaryContainer,
-            MaterialTheme.colorScheme.onPrimaryContainer,
-            "In Transit"
-        )
-        "delivered" -> Triple(
-            MaterialTheme.colorScheme.tertiaryContainer,
-            MaterialTheme.colorScheme.onTertiaryContainer,
-            "Delivered"
-        )
-        "out_for_delivery" -> Triple(
-            MaterialTheme.colorScheme.secondaryContainer,
-            MaterialTheme.colorScheme.onSecondaryContainer,
-            "Out for Delivery"
-        )
-        "exception" -> Triple(
-            MaterialTheme.colorScheme.errorContainer,
-            MaterialTheme.colorScheme.onErrorContainer,
-            "Exception"
-        )
-        "created" -> Triple(
-            MaterialTheme.colorScheme.surfaceVariant,
-            MaterialTheme.colorScheme.onSurfaceVariant,
-            "Created"
-        )
-        "picked_up" -> Triple(
-            MaterialTheme.colorScheme.secondaryContainer,
-            MaterialTheme.colorScheme.onSecondaryContainer,
-            "Picked Up"
-        )
-        else -> Triple(
-            MaterialTheme.colorScheme.surfaceVariant,
-            MaterialTheme.colorScheme.onSurfaceVariant,
-            "Unknown"
-        )
-    }
-
-    Surface(
-        modifier = modifier,
-        shape = MaterialTheme.shapes.small,
-        color = backgroundColor
-    ) {
-        Text(
-            text = label,
-            modifier = Modifier.padding(horizontal = Dimensions.spacingDefaultHalf, vertical = Dimensions.textSpacingDefault),
-            style = MaterialTheme.typography.labelSmall,
-            color = textColor
-        )
     }
 }

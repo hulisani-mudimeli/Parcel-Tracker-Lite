@@ -34,6 +34,7 @@ class ShipmentListViewModel @Inject constructor(
 
     private fun fetchShipments() {
         viewModelScope.launch {
+            delay(500.milliseconds) // simulate delay & show loading state
             val result = fetchTrackedShipmentsUseCase()
             Log.d(TAG, "fetchShipments: $result")
 
@@ -49,6 +50,7 @@ class ShipmentListViewModel @Inject constructor(
     fun onFavoriteClick(shipment: ShipmentItemDb) {
         shipment.trackingNumber?.let {
             viewModelScope.launch {
+                delay(500.milliseconds) // simulate delay & show loading state
                 val result = markParcelAsFavoriteUseCase(it, !shipment.favorite)
                 Log.d(TAG, "onFavoriteClick: $result")
                 when (result) {
@@ -74,8 +76,8 @@ class ShipmentListViewModel @Inject constructor(
         val current = _uiState.value as? ShipmentListUiState.Success  ?: return
         _uiState.value = current.copy(isRefreshing = true)
         viewModelScope.launch {
-            val result = refreshTrackedShipmentsUseCase()
             delay(500.milliseconds) // This fixes flaky animation if refresh duration happens too fast.
+            val result = refreshTrackedShipmentsUseCase()
             _uiState.value = current.copy(isRefreshing = false)
             when (result) {
                 is MyResult.Success -> fetchShipments()
