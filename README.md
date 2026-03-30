@@ -35,7 +35,7 @@ ParcelTrackerLite/
 
 1. **Clone the repository:**
 ```bash
-git clone [https://github.com/yourusername/ParcelTrackerLite](https://github.com/hulisani-mudimeli/Parcel-Tracker-Lite/)
+git clone https://github.com/hulisani-mudimeli/Parcel-Tracker-Lite.git
 cd ParcelTrackerLite
 ```
 
