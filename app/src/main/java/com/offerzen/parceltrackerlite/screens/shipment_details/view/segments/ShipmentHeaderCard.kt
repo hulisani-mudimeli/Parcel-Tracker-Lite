@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.offerzen.common.enums.ShipmentStatus
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
+import com.offerzen.common.helpers.time_formatter.TimePatterns
 import com.offerzen.common.models.network.ShipmentDetails
 import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -26,6 +28,7 @@ import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 @Composable
 fun ShipmentHeaderCard(
     shipment: ShipmentDetails,
+    timeFormatter: TimeFormatter,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -66,7 +69,7 @@ fun ShipmentHeaderCard(
             ) {
                 shipment.status?.let { ShipmentStatusChip(status = ShipmentStatus.getByCode(it)) }
             }
-            shipment.eta?.let {
+            timeFormatter.format(shipment.eta, TimePatterns.ISO, TimePatterns.DISPLAY).let {
                 Spacer(modifier = Modifier.height(Dimensions.textSpacingDefault))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(Dimensions.textSpacingDefault),
@@ -85,7 +88,7 @@ fun ShipmentHeaderCard(
                     )
                 }
             }
-            shipment.lastUpdate?.let {
+            timeFormatter.format(shipment.lastUpdate, TimePatterns.ISO, TimePatterns.DISPLAY).let {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(Dimensions.textSpacingDefault),
                     verticalAlignment = Alignment.CenterVertically

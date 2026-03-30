@@ -34,7 +34,6 @@ fun ShipmentRouteCard(
                 .padding(Dimensions.spacingDefault),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // origin
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.Start
@@ -57,7 +56,6 @@ fun ShipmentRouteCard(
                 )
             }
 
-            // arrow
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                 contentDescription = null,
@@ -65,7 +63,6 @@ fun ShipmentRouteCard(
                 modifier = Modifier.padding(horizontal = Dimensions.spacingDefaultHalf)
             )
 
-            // destination
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.End

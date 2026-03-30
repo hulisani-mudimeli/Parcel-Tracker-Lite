@@ -1,6 +1,5 @@
 package com.offerzen.parceltrackerlite.screens.add_tracking.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -22,10 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,13 +46,16 @@ fun AddTrackingNumberView(
                 trackingNumber = it,
                 onAddTrackingSuccess = { navController.popBackStack() }
             )
-        }
+        },
     )
 }
 
 @Composable
-fun AddTrackingNumberContent(uiState: AddTrackingUiState, submitTrackingNumber: (String) -> Unit) {
-    var trackingNumber by remember { mutableStateOf("") }
+fun AddTrackingNumberContent(
+    uiState: AddTrackingUiState,
+    submitTrackingNumber: (String) -> Unit
+) {
+    var trackingNumber by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier

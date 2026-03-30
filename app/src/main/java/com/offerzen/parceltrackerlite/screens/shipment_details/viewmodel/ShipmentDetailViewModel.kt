@@ -2,6 +2,8 @@ package com.offerzen.parceltrackerlite.screens.shipment_details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
+import com.offerzen.common.helpers.time_formatter.TimePatterns
 import com.offerzen.domain.usecases.FetchShipmentDetailUseCase
 import com.offerzen.parceltrackerlite.screens.shipment_details.model.ShipmentDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +17,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class ShipmentDetailViewModel @Inject constructor(
-    private val fetchShipmentDetailUseCase: FetchShipmentDetailUseCase
+    private val fetchShipmentDetailUseCase: FetchShipmentDetailUseCase,
+    val timeFormatter: TimeFormatter
 ): ViewModel() {
     private val _uiState = MutableStateFlow<ShipmentDetailUiState>(ShipmentDetailUiState.Loading)
     val uiState: StateFlow<ShipmentDetailUiState> = _uiState.asStateFlow()
@@ -25,7 +28,9 @@ class ShipmentDetailViewModel @Inject constructor(
             delay(500.milliseconds) // simulate delay & show loading state
             val result = fetchShipmentDetailUseCase(trackingNumber)
             if (result != null) {
-                val shipmentDetails = result.copy(checkpoints = result.checkpoints?.sortedBy { it.time })
+                val shipmentDetails = result.copy(checkpoints = result.checkpoints?.sortedByDescending {
+                    timeFormatter.parseToEpoch(it.time, TimePatterns.ISO)
+                })
                 _uiState.value = ShipmentDetailUiState.Success(shipmentDetails)
             } else {
                 _uiState.value = ShipmentDetailUiState.Error("Failed to fetch shipment details")

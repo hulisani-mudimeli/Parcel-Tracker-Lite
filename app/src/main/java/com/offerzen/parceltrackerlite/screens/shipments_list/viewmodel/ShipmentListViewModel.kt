@@ -3,6 +3,7 @@ package com.offerzen.parceltrackerlite.screens.shipments_list.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.common.result.MyResult
 import com.offerzen.domain.usecases.FetchTrackedShipmentListUseCase
@@ -22,7 +23,8 @@ import kotlin.time.Duration.Companion.milliseconds
 class ShipmentListViewModel @Inject constructor(
     private val fetchTrackedShipmentsUseCase: FetchTrackedShipmentListUseCase,
     private val markParcelAsFavoriteUseCase: MarkParcelAsFavoriteUseCase,
-    private val refreshTrackedShipmentsUseCase: RefreshTrackedShipmentsUseCase
+    private val refreshTrackedShipmentsUseCase: RefreshTrackedShipmentsUseCase,
+    val timeFormatter: TimeFormatter
 ) : ViewModel() {
     private val TAG = ShipmentListViewModel::class.java.name
     private val _uiState = MutableStateFlow<ShipmentListUiState>(ShipmentListUiState.Loading)

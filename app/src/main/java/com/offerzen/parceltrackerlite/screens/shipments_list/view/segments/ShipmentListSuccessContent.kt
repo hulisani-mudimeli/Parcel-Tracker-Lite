@@ -29,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
+import com.offerzen.common.helpers.time_formatter.TimePatterns
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -37,6 +39,7 @@ import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 @Composable
 fun ShipmentListSuccessState(
     shipments: List<ShipmentItemDb>,
+    timeFormatter: TimeFormatter,
     modifier: Modifier,
     onShipmentClick: (ShipmentItemDb) -> Unit,
     onFavoriteClick: (ShipmentItemDb) -> Unit,
@@ -86,6 +89,7 @@ fun ShipmentListSuccessState(
                         ) { shipment ->
                             ShipmentItem(
                                 shipment = shipment,
+                                timeFormatter = timeFormatter,
                                 onShipmentClick = { onShipmentClick(shipment) },
                                 onFavoriteClick = { onFavoriteClick(shipment) }
                             )
@@ -112,6 +116,7 @@ fun ShipmentListSuccessState(
 @Composable
 fun ShipmentItem(
     shipment: ShipmentItemDb,
+    timeFormatter: TimeFormatter,
     onShipmentClick: () -> Unit,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -156,14 +161,16 @@ fun ShipmentItem(
                 ) {
                     ShipmentStatusChip(status = shipment.status)
                     Text(
-                        text = shipment.lastUpdate ?: "",
+                        text = timeFormatter.format(
+                            shipment.lastUpdate, TimePatterns.ISO,
+                            TimePatterns.DISPLAY
+                        ),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
 
-            // favorite button
             IconButton(onClick = onFavoriteClick) {
                 Icon(
                     imageVector = if (shipment.favorite) Icons.Rounded.Favorite

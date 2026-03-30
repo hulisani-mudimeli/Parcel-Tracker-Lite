@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.offerzen.common.enums.ShipmentStatus
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
+import com.offerzen.common.helpers.time_formatter.TimePatterns
 import com.offerzen.common.models.network.ShipmentCheckpoint
 import com.offerzen.parceltrackerlite.screens.common.ShipmentStatusChip
 import com.offerzen.parceltrackerlite.ui.theme.Dimensions
@@ -27,6 +29,7 @@ import com.offerzen.parceltrackerlite.ui.theme.Dimensions
 @Composable
 fun CheckpointItem(
     checkpoint: ShipmentCheckpoint,
+    timeFormatter: TimeFormatter,
     isLast: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -34,7 +37,6 @@ fun CheckpointItem(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Dimensions.spacingDefaultHalf)
     ) {
-        // timeline indicator
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -54,7 +56,6 @@ fun CheckpointItem(
             }
         }
 
-        // checkpoint info
         Column(
             modifier = Modifier.padding(bottom = if (isLast) 0.dp else Dimensions.spacingDefault),
             verticalArrangement = Arrangement.spacedBy(2.dp)
@@ -73,13 +74,11 @@ fun CheckpointItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            checkpoint.time?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            Text(
+                text = timeFormatter.format(checkpoint.time, TimePatterns.ISO, TimePatterns.DISPLAY),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
             checkpoint.status?.let {
                 Spacer(modifier = Modifier.height(2.dp))
                 ShipmentStatusChip(status = ShipmentStatus.getByCode(it))

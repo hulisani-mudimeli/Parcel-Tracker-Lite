@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
 import com.offerzen.parceltrackerlite.screens.shipment_details.model.ShipmentDetailUiState
 import com.offerzen.parceltrackerlite.screens.shipment_details.view.segments.CheckpointItem
 import com.offerzen.parceltrackerlite.screens.shipment_details.view.segments.ShipmentHeaderCard
@@ -40,6 +41,7 @@ fun ShipmentDetailsView (
     viewModel: ShipmentDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val timeFormatter = viewModel.timeFormatter
 
     LaunchedEffect(Unit) {
         viewModel.loadShipmentDetails(trackingNumber)
@@ -47,6 +49,7 @@ fun ShipmentDetailsView (
 
     ShipmentDetailContent(
         uiState,
+        timeFormatter,
         onRetry = { viewModel.retryLoading(trackingNumber) }
     )
 }
@@ -54,6 +57,7 @@ fun ShipmentDetailsView (
 @Composable
 fun ShipmentDetailContent(
     uiState: ShipmentDetailUiState,
+    timeFormatter: TimeFormatter,
     modifier: Modifier = Modifier,
     onRetry: (() -> Unit)? = null
 ) {
@@ -82,12 +86,13 @@ fun ShipmentDetailContent(
                 ),
                 verticalArrangement = Arrangement.spacedBy(Dimensions.spacingDefault)
             ) {
-                // header card
                 item {
-                    ShipmentHeaderCard(shipment = shipment)
+                    ShipmentHeaderCard(
+                        shipment = shipment,
+                        timeFormatter = timeFormatter
+                    )
                 }
 
-                // route card
                 if (shipment.origin != null || shipment.destination != null) {
                     item {
                         ShipmentRouteCard(
@@ -97,7 +102,6 @@ fun ShipmentDetailContent(
                     }
                 }
 
-                // checkpoints timeline
                 if (!shipment.checkpoints.isNullOrEmpty()) {
                     val checkpoints = shipment.checkpoints!!
                     item {
@@ -113,7 +117,8 @@ fun ShipmentDetailContent(
                     ) { index, checkpoint ->
                         CheckpointItem(
                             checkpoint = checkpoint,
-                            isLast = index == checkpoints.lastIndex
+                            isLast = index == checkpoints.lastIndex,
+                            timeFormatter = timeFormatter
                         )
                     }
                 }

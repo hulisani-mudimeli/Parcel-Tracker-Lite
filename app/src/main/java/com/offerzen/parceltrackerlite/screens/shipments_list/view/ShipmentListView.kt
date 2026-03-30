@@ -9,6 +9,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.offerzen.common.enums.ShipmentStatus
+import com.offerzen.common.helpers.time_formatter.DefaultTimeFormatter
+import com.offerzen.common.helpers.time_formatter.TimeFormatter
 import com.offerzen.common.models.database.ShipmentItemDb
 import com.offerzen.parceltrackerlite.navigation.Route
 import com.offerzen.parceltrackerlite.screens.shipments_list.model.ShipmentListUiState
@@ -25,14 +27,15 @@ fun ShipmentListView(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val timeFormatter = viewModel.timeFormatter
 
-    // observe refresh result from add tracking screen
     LaunchedEffect(navBackStackEntry) {
         viewModel.onRetryFetch()
     }
 
     ShipmentListContent(
         uiState,
+        timeFormatter,
         onRetry = { viewModel.onRetryFetch() },
         onShipmentClick = {
             it.trackingNumber?.let {
@@ -48,6 +51,7 @@ fun ShipmentListView(
 @Composable
 fun ShipmentListContent(
     uiState: ShipmentListUiState,
+    timeFormatter: TimeFormatter,
     modifier: Modifier = Modifier,
     onRetry: () -> Unit,
     onShipmentClick: (ShipmentItemDb) -> Unit,
@@ -67,6 +71,7 @@ fun ShipmentListContent(
         is ShipmentListUiState.Success ->
             ShipmentListSuccessState(
                 uiState.shipments,
+                timeFormatter,
                 modifier,
                 onShipmentClick,
                 onFavoriteClick,
@@ -77,13 +82,6 @@ fun ShipmentListContent(
     }
 }
 
-
-/*@PhonePreviews
-@Composable
-fun ShipmentListContentPreview() {
-    ShipmentListContent(ShipmentListUiState.Error("Failed to retrieve list."))
-}*/
-
 @PhonePreviews
 @Composable
 fun ShipmentListContentPreview2() {
@@ -92,6 +90,7 @@ fun ShipmentListContentPreview2() {
             ShipmentItemDb(1, "trk02123d", "989213213", "Acme Express", "Laptop order#2", ShipmentStatus.InTransit, "2026-02-25T14:12:00Z", false),
             ShipmentItemDb(2, "trk342342", "1safsdkj3", "Universal Post", "Shoes#2", ShipmentStatus.Delivered, "2026-02-19T08:01:00Z", true)
         )),
+        DefaultTimeFormatter(),
         onRetry = {},
         onShipmentClick = {},
         onFavoriteClick = {},
